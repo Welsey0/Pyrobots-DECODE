@@ -25,7 +25,7 @@ public class TelemetryHelper {
     public void all() {
         core();
         locator();
-        camera();
+//        camera();
         turret();
         shooter();
         auton();

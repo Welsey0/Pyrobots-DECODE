@@ -21,14 +21,14 @@ public class Drive {
     // Returns a string with four motor powers based on joystick input
     public String driveFromJoy(int controllerNum) {
         Gamepad pad = (controllerNum == 2) ? gamepad2 : gamepad1;
-        double dy = -pad.left_stick_y;
+        double dy = pad.left_stick_y;
         double dx = pad.left_stick_x;
         double rx = -pad.right_stick_x;
         // Transform delta into robot frame (rotate by -curHeading)
         double coos = Math.cos(mds.locator.curHeading);
         double siin = Math.sin(mds.locator.curHeading);
-        double x = dx * coos + dy * siin;     // forward (+) in robot frame.
-        double y = dy * coos - dx * siin;    // left (+) in robot frame
+        double y = dx; //* coos + dy * siin;     // forward (+) in robot frame.
+        double x = dy; //* coos + dx * siin;    // left (+) in robot frame
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
         double zero = (y + x + rx) / denominator;
         double one = (y - x - rx) / denominator;

@@ -24,52 +24,52 @@ public class Hardware {
         this.hardwareMap = hardwareMap;
     }
     public void init() {
-        frontLeft = hardwareMap.dcMotor.get("frontLeft");
-        backLeft = hardwareMap.dcMotor.get("backLeft");
-        frontRight = hardwareMap.dcMotor.get("frontRight");
-        backRight = hardwareMap.dcMotor.get("backRight");
-        flywheel = (DcMotorEx) hardwareMap.dcMotor.get("flywheel");
+        frontLeft = hardwareMap.dcMotor.get("FL");
+        backLeft = hardwareMap.dcMotor.get("BL");
+        frontRight = hardwareMap.dcMotor.get("FR");
+        backRight = hardwareMap.dcMotor.get("BR");
+//        flywheel = (DcMotorEx) hardwareMap.dcMotor.get("flywheel");
 
-        intakeLeft = hardwareMap.servo.get("intakeLeft");
-        intakeRight = hardwareMap.servo.get("intakeRight");
-        intakeTop = hardwareMap.servo.get("intakeTop");
-        outtake = hardwareMap.servo.get("outtake");
-        movUp = hardwareMap.dcMotor.get("movUp");
-        turretRotation = hardwareMap.crservo.get("shootangle");
-
-        slideFront = hardwareMap.dcMotor.get("slideFront");
-        slideBack = hardwareMap.dcMotor.get("slideBack");
+//        intakeLeft = hardwareMap.servo.get("intakeLeft");
+//        intakeRight = hardwareMap.servo.get("intakeRight");
+//        intakeTop = hardwareMap.servo.get("intakeTop");
+//        outtake = hardwareMap.servo.get("outtake");
+//        movUp = hardwareMap.dcMotor.get("movUp");
+//        turretRotation = hardwareMap.crservo.get("shootangle");
+//
+//        slideFront = hardwareMap.dcMotor.get("slideFront");
+//        slideBack = hardwareMap.dcMotor.get("slideBack");
 
         pinpoint = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
 
-        cam1 = hardwareMap.get(WebcamName.class, "camera");
-        cam2 = hardwareMap.get(WebcamName.class, "camera2");
+//        cam1 = hardwareMap.get(WebcamName.class, "camera");
+//        cam2 = hardwareMap.get(WebcamName.class, "camera2");
 
         imu = hardwareMap.get(IMU.class, "imu");
 
-        frontLeft.setDirection(DcMotor.Direction.FORWARD);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-        backLeft.setDirection(DcMotor.Direction.FORWARD);
-        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
 
-        flywheel.setDirection(DcMotor.Direction.FORWARD);
-        slideFront.setDirection(DcMotor.Direction.FORWARD);
-        slideBack.setDirection(DcMotor.Direction.FORWARD);
+//        flywheel.setDirection(DcMotor.Direction.FORWARD);
+//        slideFront.setDirection(DcMotor.Direction.FORWARD);
+//        slideBack.setDirection(DcMotor.Direction.FORWARD);
 
-        movUp.setDirection(DcMotor.Direction.REVERSE);
+//        movUp.setDirection(DcMotor.Direction.REVERSE);
+//
+//        flywheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//        flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        flywheel.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        pinpoint.setOffsets(-125.0, 170.0, DistanceUnit.MM);
+//        pinpoint.setOffsets(-125.0, 170.0, DistanceUnit.MM);
         pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
         pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
         IMU.Parameters IMUparameters;
         IMUparameters = new IMU.Parameters(
                 new RevHubOrientationOnRobot(
-                        RevHubOrientationOnRobot.LogoFacingDirection.UP,
-                        RevHubOrientationOnRobot.UsbFacingDirection.RIGHT
+                        RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                        RevHubOrientationOnRobot.UsbFacingDirection.UP
                 )
         );
 

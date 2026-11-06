@@ -30,7 +30,7 @@ public class MDrive extends OpMode {
             }
 
             // info updates
-            mds.cameraServices.update_april();
+//            mds.cameraServices.update_april();
             mds.locator.update_odometry();
 
             // direct drive (with autorotate available)
@@ -50,10 +50,10 @@ public class MDrive extends OpMode {
             }
 
             // other movement controllers
-            mds.otherControllers.liftController(-gamepad2.left_stick_y);
-            mds.otherControllers.servoController();
-            mds.otherControllers.shooterController();
-            mds.otherControllers.turretController();
+//            mds.otherControllers.liftController(-gamepad2.left_stick_y);
+//            mds.otherControllers.servoController();
+//            mds.otherControllers.shooterController();
+//            mds.otherControllers.turretController();
             mds.otherControllers.firstCycle = false;
 
             // copy gamepads to previous vars for rising edge detectors
