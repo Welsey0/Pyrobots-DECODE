@@ -95,8 +95,8 @@ public class OtherControllers {
 
         // apply lift motor state if it is different
         if ((backPowerLast != backPower || frontPowerLast != frontPower) || firstCycle) {
-            mds.hardware.slideBack.setPower(backPower);
-            mds.hardware.slideFront.setPower(frontPower);
+//            mds.hardware.slideBack.setPower(backPower);
+//            mds.hardware.slideFront.setPower(frontPower);
         }
 
         backPowerLast = backPower;
@@ -124,13 +124,22 @@ public class OtherControllers {
 
     // turret controller
     public void turretController() {
+        if (gamepad2.dpad_left && !pgamepad2.dpad_left) {
+            CameraServices.targetAlliance = CameraServices.RED;
+            trTarget = CameraServices.RED;
+        } else if (gamepad2.dpad_right && !pgamepad2.dpad_right) {
+            CameraServices.targetAlliance = CameraServices.BLUE;
+            trTarget = CameraServices.BLUE;
+        }
+
         // check if there is a valid target
         if (!mds.cameraServices.currentDetections.isEmpty()) {
             trDetection = mds.cameraServices.currentDetections.get(0);
-            // check if identified tags are one of the targets and have valid pose information
-            if (trDetection.metadata != null && trDetection.ftcPose != null && ((!trLoveAtFirstSight && Objects.equals(trDetection.metadata.name, trTarget)) || (trLoveAtFirstSight && (Objects.equals(trDetection.metadata.name, "RedTarget") || Objects.equals(trDetection.metadata.name, "BlueTarget"))))) {
+            boolean selectedAllianceMatch = CameraServices.isTagInAlliance(trDetection, CameraServices.targetAlliance);
+            boolean explicitTargetMatch = !trLoveAtFirstSight && trTarget != null && CameraServices.isTagInAlliance(trDetection, trTarget);
+            if (trDetection.metadata != null && trDetection.ftcPose != null && (explicitTargetMatch || (trLoveAtFirstSight && selectedAllianceMatch))) {
                 if (trLoveAtFirstSight) {
-                    trTarget = trDetection.metadata.name;
+                    trTarget = CameraServices.targetAlliance;
                 }
                 trTargetFound = true;
             } else {
@@ -361,7 +370,7 @@ public class OtherControllers {
 
     // shooter controller helper functions
     public double getFlywheelRPM() {
-        double vel = mds.hardware.flywheel.getVelocity();
+        double vel = mds.hardware.shooter.getVelocity();
         return (vel * 60) / 28;
     }
     public double RPM2TPS(double rpm) {
@@ -370,7 +379,7 @@ public class OtherControllers {
     }
 
     public void shooterController() {
-        setPIDFCoefficients(mds.hardware.flywheel, P, I, D, F);
+        setPIDFCoefficients(mds.hardware.shooter, P, I, D, F);
         flywheelRPM = getFlywheelRPM();
 
         // shooter state toggle
@@ -381,9 +390,9 @@ public class OtherControllers {
         // apply shooter state if it is different
         if (((shooterPowerLast != shooterPower) || (shooterOnLast != shooterOn) || ((shooterPowerLast != shooterPower) && (shooterOnLast != shooterOn))) || firstCycle) {
             if (shooterOn == 1) {
-                mds.hardware.flywheel.setVelocity(RPM2TPS(shooterPower));
+                mds.hardware.shooter.setVelocity(RPM2TPS(shooterPower));
             } else {
-                mds.hardware.flywheel.setVelocity(0);
+                mds.hardware.shooter.setVelocity(0);
             }
         }
 

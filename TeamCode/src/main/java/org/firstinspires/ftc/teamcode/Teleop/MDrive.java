@@ -31,23 +31,23 @@ public class MDrive extends OpMode {
 
             // info updates
 //            mds.cameraServices.update_april();
-            mds.locator.update_odometry();
+//            mds.locator.update_odometry();
 
             // direct drive (with autorotate available)
             mds.motorcode = mds.drive.driveFromJoy(1);
-            if (gamepad1.right_bumper) {
-                mds.motorcode = mds.auton.rotateToTarget(mds.motorcode);
-            }
+//            if (gamepad1.right_bumper) {
+//                mds.motorcode = mds.auton.rotateToTarget(mds.motorcode);
+//            }
             mds.drive.setPowers(mds.motorcode);
 
             // relative drive options
-            if(gamepad1.share){
-                mds.hardware.pinpoint.setHeading(0,AngleUnit.RADIANS);
-                mds.hardware.imu.resetYaw();
-            }
-            if(gamepad1.options){
-                mds.hardware.pinpoint.recalibrateIMU();
-            }
+//            if(gamepad1.share){
+//                mds.hardware.pinpoint.setHeading(0,AngleUnit.RADIANS);
+//                mds.hardware.imu.resetYaw();
+//            }
+//            if(gamepad1.options){
+//                mds.hardware.pinpoint.recalibrateIMU();
+//            }
 
             // other movement controllers
 //            mds.otherControllers.liftController(-gamepad2.left_stick_y);

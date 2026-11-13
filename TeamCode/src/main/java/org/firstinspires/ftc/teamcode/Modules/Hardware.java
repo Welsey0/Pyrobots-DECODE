@@ -2,15 +2,12 @@ package org.firstinspires.ftc.teamcode.Modules;
 
 import com.qualcomm.hardware.gobilda.GoBildaPinpointDriver;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.MDS;
 
 public class Hardware {
@@ -28,7 +25,7 @@ public class Hardware {
         backLeft = hardwareMap.dcMotor.get("BL");
         frontRight = hardwareMap.dcMotor.get("FR");
         backRight = hardwareMap.dcMotor.get("BR");
-//        flywheel = (DcMotorEx) hardwareMap.dcMotor.get("flywheel");
+        shooter = (DcMotorEx) hardwareMap.dcMotor.get("shooter");
 
 //        intakeLeft = hardwareMap.servo.get("intakeLeft");
 //        intakeRight = hardwareMap.servo.get("intakeRight");
@@ -40,9 +37,21 @@ public class Hardware {
 //        slideFront = hardwareMap.dcMotor.get("slideFront");
 //        slideBack = hardwareMap.dcMotor.get("slideBack");
 
-        pinpoint = hardwareMap.get(GoBildaPinpointDriver.class,"pinpoint");
+        try {
+            pinpoint = hardwareMap.get(GoBildaPinpointDriver.class, "pinpoint");
+            if (pinpoint != null) {
+                pinpoint.setPosition(new org.firstinspires.ftc.robotcore.external.navigation.Pose2D(
+                        org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit.MM,
+                        0,
+                        0,
+                        org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.RADIANS,
+                        0));
+            }
+        } catch (IllegalArgumentException ignored) {
+            pinpoint = null;
+        }
 
-//        cam1 = hardwareMap.get(WebcamName.class, "camera");
+        cam1 = hardwareMap.get(WebcamName.class, "webcam1");
 //        cam2 = hardwareMap.get(WebcamName.class, "camera2");
 
         imu = hardwareMap.get(IMU.class, "imu");
@@ -62,8 +71,8 @@ public class Hardware {
 //        flywheel.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 //        pinpoint.setOffsets(-125.0, 170.0, DistanceUnit.MM);
-        pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
-        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
+//        pinpoint.setEncoderResolution(GoBildaPinpointDriver.GoBildaOdometryPods.goBILDA_4_BAR_POD);
+//        pinpoint.setEncoderDirections(GoBildaPinpointDriver.EncoderDirection.FORWARD, GoBildaPinpointDriver.EncoderDirection.FORWARD);
 
         IMU.Parameters IMUparameters;
         IMUparameters = new IMU.Parameters(
@@ -86,16 +95,16 @@ public class Hardware {
     public Servo intakeTop;
     public Servo outtake;
     public DcMotor movUp;
-    public CRServo turretRotation;
+    public DcMotor turretRotation;
 
-    public DcMotorEx flywheel;
-    public DcMotor slideFront;
-    public DcMotor slideBack;
+    public DcMotorEx shooter;
+//    public DcMotor slideFront;
+//    public DcMotor slideBack;
 
     public GoBildaPinpointDriver pinpoint;
 
     public WebcamName cam1;
-    public WebcamName cam2;
+//    public WebcamName cam2;
 
     public IMU imu;
 }

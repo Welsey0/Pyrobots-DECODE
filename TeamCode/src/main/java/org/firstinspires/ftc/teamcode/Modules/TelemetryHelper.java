@@ -7,6 +7,8 @@ import org.firstinspires.ftc.teamcode.MDS;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.opencv.Circle;
 import org.firstinspires.ftc.vision.opencv.ColorBlobLocatorProcessor;
+
+import java.util.List;
 import java.util.Locale;
 
 public class TelemetryHelper {
@@ -24,7 +26,7 @@ public class TelemetryHelper {
 
     public void all() {
         core();
-        locator();
+//        locator();
 //        camera();
         turret();
         shooter();
@@ -49,15 +51,17 @@ public class TelemetryHelper {
 
     public void locator() {
         telemetry.addLine("=== LOCATOR ===");
-        telemetry.addData("Location", mds.locator.odoLoc);
-        telemetry.addData("Pinpoint Status", mds.locator.odoStat);
+//        telemetry.addData("Location", mds.locator.odoLoc);
+//        telemetry.addData("Pinpoint Status", mds.locator.odoStat);
         telemetry.addLine("======\n");
     }
 
     public void camera() {
         telemetry.addLine("=== CAMERA ===");
-        if (CameraServices.camMode.equals("tag")) {
-            for (AprilTagDetection detection : mds.cameraServices.currentDetections) {
+        if ("tag".equals(CameraServices.camMode)) {
+            telemetry.addData("Targeting", CameraServices.targetAlliance);
+            List<AprilTagDetection> targetDetections = CameraServices.getTargetDetections(mds.cameraServices.currentDetections, CameraServices.targetAlliance);
+            for (AprilTagDetection detection : targetDetections) {
                 if (detection.metadata != null) {
                     telemetry.addLine(String.format(Locale.US, "--- Detection: %s (ID %d) ---", detection.metadata.name, detection.id));
                     telemetry.addLine(String.format(Locale.US, "XYZ %6.1f %6.1f %6.1f  (mm)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
@@ -68,16 +72,16 @@ public class TelemetryHelper {
                     telemetry.addLine(String.format(Locale.US, "Center %6.0f %6.0f   (pixels)", detection.center.x, detection.center.y));
                 }
             }
-            if (!mds.cameraServices.currentDetections.isEmpty()) {
+            if (!targetDetections.isEmpty()) {
                 telemetry.addLine("--- Key ---");
                 telemetry.addLine("XYZ = X (Right), Y (Forward), Z (Up) dist.");
                 telemetry.addLine("PRY = Pitch, Roll & Yaw (XYZ Rotation)");
                 telemetry.addLine("RBE = Range, Bearing & Elevation");
                 telemetry.addLine("------");
             } else {
-                telemetry.addLine("---\nNo Detections\n---");
+                telemetry.addLine("---\nNo Matching Detections\n---");
             }
-        } else if (CameraServices.camMode.equals("ball")) {
+        } else if ("ball".equals(CameraServices.camMode)) {
             for (ColorBlobLocatorProcessor.Blob b : mds.cameraServices.currentBlobs) {
                 Circle circleFit = b.getCircle();
                 telemetry.addLine("--- Ball Detection ---");

@@ -29,7 +29,7 @@ public class MDS {
 
         // instantiate modules now that basic inputs are assigned
         this.auton = new Auton();
-//        this.cameraServices = new CameraServices();
+        this.cameraServices = new CameraServices();
         this.devTools = new DevTools();
         this.drive = new Drive(this.gamepad1, this.gamepad2);
         this.hardware = new Hardware(this.hardwareMap);
@@ -54,7 +54,7 @@ public class MDS {
         mode = omode;
 
         auton.setMDS(mds);
-//        cameraServices.setMDS(mds);
+        cameraServices.setMDS(mds);
         devTools.setMDS(mds);
         drive.setMDS(mds);
         hardware.setMDS(mds);
@@ -63,9 +63,11 @@ public class MDS {
         telemetryHelper.setMDS(mds);
 
         hardware.init();
-        hardware.pinpoint.resetPosAndIMU();
+        if (hardware.pinpoint != null) {
+            hardware.pinpoint.resetPosAndIMU();
+        }
         auton.init();
-//        cameraServices.init();
+        cameraServices.init();
         otherControllers.init();
     }
 }

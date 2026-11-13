@@ -25,8 +25,8 @@ public class Drive {
         double dx = pad.left_stick_x;
         double rx = -pad.right_stick_x;
         // Transform delta into robot frame (rotate by -curHeading)
-        double coos = Math.cos(mds.locator.curHeading);
-        double siin = Math.sin(mds.locator.curHeading);
+//        double coos = Math.cos(mds.locator.curHeading);
+//        double siin = Math.sin(mds.locator.curHeading);
         double y = dx; //* coos + dy * siin;     // forward (+) in robot frame.
         double x = dy; //* coos + dx * siin;    // left (+) in robot frame
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
